@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Basmala &amp; Muhammed Wedding</title>
+<style>
+/* Layout idea: one phone-width column of scenes. Embroidered doors open on a painted mosque at golden hour, then the story scrolls. */
+@font-face{font-family:"GV";src:url(fonts/greatvibes.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Corm";src:url(fonts/cormorant.woff2) format("woff2");font-weight:300 700;font-display:swap}
+@font-face{font-family:"Corm";src:url(fonts/cormorant-italic.woff2) format("woff2");font-style:italic;font-weight:300 700;font-display:swap}
+@font-face{font-family:"Naskh";src:url(fonts/naskh.ttf) format("truetype");font-weight:400 700;font-display:swap}
+@font-face{font-family:"Cinzel";src:url(fonts/cinzel.woff2) format("woff2");font-weight:400 700;font-display:swap}
+:root{
+  --ivory:#fbf7f2;
+  --paper:#fffdf9;
+  --wine:#6b1c32;
+  --blush:#eec5c6;
+  --rose:#c56f7d;
+  --sage:#8fa486;
+  --gold:#b8914e;
+  --ink:#3e2a2f;
+  --script:"GV","Great Vibes",cursive;
+  --serif:"Corm","Cormorant Garamond",Georgia,serif;
+  --caps:"Cinzel","Corm",Georgia,serif;
+  --arabic:"Naskh","Noto Naskh Arabic","Amiri",serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#f1e4e0;color:var(--ink);font-family:var(--serif);-webkit-font-smoothing:antialiased}
+body.locked{overflow:hidden;height:100%}
+#app{max-width:480px;margin:0 auto;background:var(--ivory);position:relative;overflow:hidden;box-shadow:0 0 60px rgba(107,28,50,.12)}
+section{position:relative;z-index:2;padding:72px 28px;text-align:center}
+.caps{font-family:var(--caps);letter-spacing:.32em;font-size:12.5px;text-transform:uppercase;color:var(--gold)}
+.script{font-family:var(--script);font-weight:400;color:var(--wine);line-height:1}
+.it{font-style:italic}
+.divider{display:flex;align-items:center;justify-content:center;gap:10px;margin:18px auto;color:var(--gold)}
+.divider i{display:block;width:70px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.divider i:last-child{transform:scaleX(-1)}
+.divider b{width:7px;height:7px;transform:rotate(45deg);background:var(--gold)}
+
+/* fixed overlays */
+#birds,#petals{position:fixed;left:50%;transform:translateX(-50%);top:0;width:min(480px,100%);height:100%;pointer-events:none}
+#birds{z-index:1}
+#petals{z-index:5}
+
+/* cover */
+#cover{position:fixed;inset:0;z-index:20;display:flex;justify-content:center;perspective:1600px;background:transparent}
+#cover .stage{position:relative;width:min(480px,100%);height:100%;transform-style:preserve-3d}
+.door{position:absolute;top:0;width:50%;height:100%;background-size:cover;background-position:center;backface-visibility:hidden;box-shadow:inset 0 0 40px rgba(120,90,60,.08)}
+.door.l{left:0;background-image:url(door_l.jpg);transform-origin:left center;background-position:right center}
+.door.r{right:0;background-image:url(door_r.jpg);transform-origin:right center;background-position:left center}
+.door.l::after,.door.r::after{content:"";position:absolute;top:0;bottom:0;width:18px}
+.door.l::after{right:0;background:linear-gradient(90deg,transparent,rgba(110,80,60,.12))}
+.door.r::after{left:0;background:linear-gradient(-90deg,transparent,rgba(110,80,60,.12))}
+#bow{position:absolute;left:50%;top:40%;width:84%;transform:translate(-50%,-50%);overflow:visible;filter:drop-shadow(0 10px 14px rgba(110,70,50,.18))}
+#seal{position:absolute;left:50%;top:40%;width:96px;height:96px;transform:translate(-50%,-50%);border-radius:50%;filter:drop-shadow(0 6px 10px rgba(80,20,30,.3))}
+.cover-text{position:absolute;left:0;right:0;bottom:3%;text-align:center;padding:40px 0 24px;background:radial-gradient(60% 55% at 50% 50%,rgba(251,247,242,.96) 30%,rgba(251,247,242,0) 100%)}
+.cover-text .script{text-shadow:0 0 14px #fbf7f2,0 0 6px #fbf7f2}
+.cover-text .script{font-size:44px}
+#openBtn{margin-top:18px;font-family:var(--caps);letter-spacing:.3em;font-size:12px;color:var(--paper);background:var(--wine);border:0;border-radius:999px;padding:13px 28px;cursor:pointer;box-shadow:0 8px 20px rgba(107,28,50,.25)}
+#openBtn:focus-visible,.btn:focus-visible,#musicBtn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+/* hero */
+#hero{min-height:100svh;padding:0;overflow:hidden;background:linear-gradient(180deg,#d9d6ec 0%,#ecd6e2 26%,#f8d0c4 50%,#fbdcb6 72%,#fae6cc 100%)}
+#rays{position:absolute;left:50%;top:38%;width:1400px;height:1400px;margin:-700px 0 0 -700px;background:repeating-conic-gradient(from 0deg,rgba(255,244,222,.55) 0deg 5deg,rgba(255,244,222,0) 5deg 15deg);-webkit-mask:radial-gradient(circle,#000 0,transparent 62%);mask:radial-gradient(circle,#000 0,transparent 62%);filter:blur(3px)}
+#sun{position:absolute;left:62%;top:40%;width:620px;height:620px;margin:-310px 0 0 -310px;border-radius:50%;background:radial-gradient(circle,rgba(255,246,226,.95),rgba(255,236,206,0) 65%)}
+#mosque{position:absolute;left:0;width:100%;bottom:-24%;transform-origin:50% 70%}
+#hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:150px;background:linear-gradient(rgba(251,247,242,0),var(--ivory));z-index:2;pointer-events:none}
+.verse{position:relative;z-index:3;padding:62px 22px 0}
+.verse .ar{font-family:var(--arabic);font-weight:500;direction:rtl;font-size:23px;line-height:2.1;color:var(--wine);text-shadow:0 0 18px rgba(255,248,240,.95),0 0 4px rgba(255,248,240,.9)}
+.verse .ref{font-family:var(--arabic);font-size:15px;color:var(--gold);margin-top:6px;direction:rtl}
+.hint{position:absolute;bottom:22px;left:0;right:0;z-index:3;font-family:var(--caps);font-size:10.5px;letter-spacing:.32em;color:var(--paper);text-shadow:0 1px 8px rgba(107,28,50,.5)}
+.hint span{display:block;width:1px;height:28px;margin:8px auto 0;background:linear-gradient(var(--paper),transparent)}
+
+/* monogram */
+#mono{padding-top:80px;background:radial-gradient(120% 60% at 50% 0%,#fdeeea 0%,var(--ivory) 60%)}
+#mono img{width:230px;height:230px;display:block;margin:0 auto 26px}
+#mono .lead{font-size:21px;font-style:italic;color:var(--ink)}
+.names{font-size:66px;margin:14px 0 4px}
+.names .amp{display:block;font-size:44px;color:var(--gold);margin:2px 0}
+#mono .sub{font-size:18px;line-height:1.55;max-width:30ch;margin:16px auto 0}
+
+/* photo */
+#photo{padding:40px 0 64px}
+#photo .ph{position:relative;width:100%;aspect-ratio:992/1084;overflow:hidden;-webkit-mask:radial-gradient(78% 72% at 50% 46%,#000 58%,transparent 100%);mask:radial-gradient(78% 72% at 50% 46%,#000 58%,transparent 100%)}
+#photo img{width:100%;height:100%;object-fit:cover;display:block;transform-origin:50% 40%}
+#photo .cap{margin-top:6px;font-size:40px}
+#photo .cap2{font-size:17px;font-style:italic;margin-top:8px}
+
+/* countdown */
+#count{background:linear-gradient(180deg,var(--ivory),#fbefea 60%,var(--ivory))}
+#count h2{font-size:48px;margin:10px 0 24px}
+.cd{display:grid;grid-template-columns:repeat(4,1fr);margin:0 auto;max-width:380px}
+.cd div{position:relative;padding:4px 0}
+.cd div+div::before{content:"";position:absolute;left:0;top:10%;bottom:28%;width:1px;background:var(--blush)}
+.cd .n{display:block;font-family:var(--serif);font-weight:500;font-size:44px;font-variant-numeric:tabular-nums;color:var(--wine);height:52px;overflow:hidden;line-height:52px}
+.cd .n span{display:inline-block}
+.cd .u{font-family:var(--caps);font-size:10px;letter-spacing:.28em;color:var(--gold);margin-top:6px;display:block}
+.cal{margin:34px auto 0;max-width:330px;background:var(--paper);border:1px solid #ecdcd2;border-radius:18px;padding:20px 18px 18px;box-shadow:0 12px 30px rgba(150,90,80,.08)}
+.cal .m{font-family:var(--script);font-size:34px;color:var(--wine);margin-bottom:10px}
+.cal .g{display:grid;grid-template-columns:repeat(7,1fr);row-gap:6px;font-size:15px}
+.cal .g .h{font-family:var(--caps);font-size:9.5px;letter-spacing:.12em;color:var(--gold);padding-bottom:4px}
+.cal .g span{height:32px;line-height:32px;position:relative}
+.cal .g .day26{color:var(--paper);font-weight:600}
+.cal .g .day26 svg{position:absolute;left:50%;top:50%;width:40px;height:40px;transform:translate(-50%,-52%);z-index:0;animation:beat 1.6s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:translate(-50%,-52%) scale(1)}50%{transform:translate(-50%,-52%) scale(1.1)}}
+.cal .g .day26 b{position:relative;z-index:1}
+.when{margin-top:22px;font-size:20px}
+.when strong{display:block;font-family:var(--caps);font-weight:500;font-size:14px;letter-spacing:.24em;color:var(--wine);margin-bottom:6px}
+.btn{display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-family:var(--caps);font-size:11.5px;letter-spacing:.22em;text-decoration:none;color:var(--paper);background:var(--wine);border:0;border-radius:999px;padding:13px 24px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--wine);border:1px solid var(--wine)}
+
+/* venue */
+#venue .arch{width:250px;aspect-ratio:4/5;margin:22px auto 0;border-radius:125px 125px 16px 16px;overflow:hidden;border:3px solid var(--paper);box-shadow:0 0 0 1px var(--gold),0 18px 34px rgba(107,28,50,.18);background:#d9c6b6}
+#venue video{width:100%;height:100%;object-fit:cover;display:block}
+#venue h3{font-family:var(--script);font-weight:400;font-size:42px;color:var(--wine);margin-top:26px;line-height:1.1}
+#venue .arn{font-family:var(--arabic);font-size:21px;color:var(--gold);direction:rtl;margin-top:4px}
+#venue .addr{font-size:18px;margin-top:6px}
+.loc{margin:24px auto 0;max-width:340px;display:flex;align-items:center;gap:16px;text-align:left;background:var(--paper);border:1px solid #ecdcd2;border-radius:18px;padding:16px 18px}
+.loc .pin{flex:none;width:54px;height:54px}
+.loc .t{font-size:16px;line-height:1.35}
+.loc .t small{display:block;font-family:var(--caps);font-size:9.5px;letter-spacing:.2em;color:var(--gold);margin-top:4px}
+.qr{display:none;margin:18px auto 0;width:118px;border:6px solid var(--paper);border-radius:10px;box-shadow:0 0 0 1px #ecdcd2}
+.film .qr{display:block}
+.film .open,.film .loc,.film #count .btn,.film .hint{display:none!important}
+.film section{padding-top:46px;padding-bottom:46px}
+.film #venue .arch{width:270px}
+
+/* dress */
+#dress{background:linear-gradient(180deg,var(--ivory),#f6ece4)}
+#dress h2{font-size:50px;margin:12px 0 18px}
+.icons{display:flex;justify-content:center;gap:34px;align-items:flex-end;margin:6px 0 18px}
+.icons svg{width:64px;height:84px;stroke:var(--gold);fill:none;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.swatch{display:flex;gap:8px;justify-content:center;margin-top:18px}
+.swatch i{width:22px;height:22px;border-radius:50%;border:2px solid var(--paper);box-shadow:0 0 0 1px #e4d4ca}
+#dress p{font-size:19px;line-height:1.6;max-width:30ch;margin:0 auto}
+#dress p em{color:var(--wine)}
+
+/* wishes */
+#wishes h2{font-size:46px;margin:12px 0 8px}
+#wishes .note{font-size:17px;font-style:italic;margin-bottom:20px}
+form{max-width:360px;margin:0 auto;display:grid;gap:12px;text-align:left}
+label{font-family:var(--caps);font-size:10px;letter-spacing:.22em;color:var(--gold)}
+input,textarea{width:100%;font-family:var(--serif);font-size:18px;color:var(--ink);background:var(--paper);border:1px solid #e3d2c8;border-radius:12px;padding:12px 14px}
+textarea{min-height:110px;resize:vertical}
+input:focus,textarea:focus{outline:2px solid var(--blush);border-color:var(--rose)}
+form .btn{justify-self:center}
+.sent{display:none;margin-top:14px;font-size:17px;font-style:italic;color:var(--wine)}
+.film #wishes{display:none}
+
+/* end */
+#end{padding-bottom:90px;background:radial-gradient(110% 60% at 50% 100%,#f7dcd8 0%,var(--ivory) 70%)}
+#end img{width:150px;height:150px}
+#end .script{font-size:52px;margin-top:20px}
+#end p{font-size:18px;font-style:italic;margin-top:10px}
+#end .d{font-family:var(--caps);letter-spacing:.3em;font-size:13px;color:var(--gold);margin-top:16px}
+
+#musicBtn{position:fixed;z-index:30;right:max(16px,calc(50% - 224px));bottom:20px;width:52px;height:52px;border-radius:50%;border:0;background:var(--wine);color:var(--paper);display:none;align-items:center;justify-content:center;gap:3px;cursor:pointer;box-shadow:0 8px 20px rgba(107,28,50,.3)}
+#musicBtn i{width:3px;height:14px;background:var(--paper);border-radius:2px;transform-origin:bottom}
+#musicBtn.on i{animation:eq 1s ease-in-out infinite}
+#musicBtn i:nth-child(2){animation-delay:.2s}#musicBtn i:nth-child(3){animation-delay:.4s}#musicBtn i:nth-child(4){animation-delay:.1s}
+@keyframes eq{0%,100%{transform:scaleY(.35)}50%{transform:scaleY(1)}}
+.film #musicBtn{display:none!important}
+.js .rv{opacity:0}
+@media (prefers-reduced-motion:reduce){.js .rv{opacity:1}#musicBtn.on i{animation:none}}
+</style>
+</head>
+<body class="locked">
+<div id="cover" aria-label="Invitation cover">
+  <div class="stage">
+    <div class="door l"></div><div class="door r"></div>
+    <svg id="bow" viewBox="-200 -120 400 300" aria-hidden="true">
+      <defs>
+        <linearGradient id="sat" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffdf9"/><stop offset=".45" stop-color="#f5ece2"/><stop offset=".7" stop-color="#fffaf4"/><stop offset="1" stop-color="#e6d8ca"/></linearGradient>
+        <linearGradient id="sat2" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffdf9"/><stop offset=".5" stop-color="#efe3d6"/><stop offset="1" stop-color="#fbf4ec"/></linearGradient>
+        <linearGradient id="band" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf5ee"/><stop offset=".5" stop-color="#efe3d5"/><stop offset="1" stop-color="#fbf5ee"/></linearGradient>
+      </defs>
+      <g id="ribbonH"><rect x="-260" y="-9" width="520" height="22" fill="url(#band)"/><path d="M-260 -9H260M-260 13H260" stroke="#e2d2c2" stroke-width="1"/></g>
+      <g id="tailL"><path d="M-6 6 C-30 60 -70 110 -96 168 L-62 160 L-46 186 C-26 120 -6 60 10 14Z" fill="url(#sat2)" stroke="#e0cfbf" stroke-width="1"/></g>
+      <g id="tailR"><path d="M6 6 C30 60 66 112 88 172 L58 158 L40 182 C24 120 6 60 -10 14Z" fill="url(#sat)" stroke="#e0cfbf" stroke-width="1"/></g>
+      <g id="loopL"><path d="M-8 0 C-60 -90 -170 -96 -176 -36 C-180 8 -120 34 -8 6Z" fill="url(#sat)" stroke="#e0cfbf" stroke-width="1"/><path d="M-30 -2 C-80 -54 -140 -60 -150 -30" fill="none" stroke="#eadccd" stroke-width="2"/></g>
+      <g id="loopR"><path d="M8 0 C60 -90 170 -96 176 -36 C180 8 120 34 8 6Z" fill="url(#sat2)" stroke="#e0cfbf" stroke-width="1"/><path d="M30 -2 C80 -54 140 -60 150 -30" fill="none" stroke="#eadccd" stroke-width="2"/></g>
+      <g id="knot"><rect x="-24" y="-22" width="48" height="46" rx="16" fill="url(#band)" stroke="#e0cfbf"/></g>
+    </svg>
+    <img id="seal" src="seal.png" alt="">
+    <div class="cover-text">
+      <div class="script">Basmala &amp; Muhammed</div>
+      <button id="openBtn" type="button">OPEN INVITATION</button>
+    </div>
+  </div>
+</div>
+
+<div id="app">
+  <canvas id="birds" aria-hidden="true"></canvas>
+  <section id="hero" data-sec>
+    <div id="sun"></div><div id="rays"></div>
+    <img id="mosque" src="mosque.webp" alt="Painted illustration of Al Ali Al Azeem Mosque">
+    <div class="verse">
+      <p class="ar rv" data-d="0.3">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا</p>
+      <p class="ar rv" data-d="1.4">وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً</p>
+      <p class="ref rv" data-d="2.4">سورة الروم · ٢١</p>
+    </div>
+    <div class="hint rv" data-d="3.2">Scroll<span></span></div>
+  </section>
+
+  <section id="mono" data-sec>
+    <img class="rv" data-d="0" src="monogram.png" alt="BM monogram">
+    <p class="lead rv" data-d="0.5">Together with their families</p>
+    <h1 class="names script rv" data-d="0.9">Basmala<span class="amp">&amp;</span>Muhammed</h1>
+    <p class="sub rv" data-d="1.6">joyfully invite you to share the happiness of their wedding day</p>
+  </section>
+
+  <section id="photo" data-sec>
+    <div class="ph rv" data-d="0"><img src="couple.jpg" alt="Illustrated portrait of Muhammed and Basmala as children"></div>
+    <div class="cap script rv" data-d="0.6">Two hearts, one story</div>
+    <p class="cap2 rv" data-d="1">from the very beginning</p>
+  </section>
+
+  <section id="count" data-sec>
+    <p class="caps rv" data-d="0">Counting down to</p>
+    <h2 class="script rv" data-d="0.3">Our Wedding Day</h2>
+    <div class="cd rv" data-d="0.6" aria-live="polite">
+      <div><span class="n" id="cdD"><span>00</span></span><span class="u">Days</span></div>
+      <div><span class="n" id="cdH"><span>00</span></span><span class="u">Hours</span></div>
+      <div><span class="n" id="cdM"><span>00</span></span><span class="u">Minutes</span></div>
+      <div><span class="n" id="cdS"><span>00</span></span><span class="u">Seconds</span></div>
+    </div>
+    <div class="cal rv" data-d="1">
+      <div class="m">November 2026</div>
+      <div class="g" id="calGrid"></div>
+    </div>
+    <div class="when rv" data-d="1.4"><strong>THURSDAY · 26 NOVEMBER 2026</strong>8:00 PM – 10:00 PM</div>
+    <a class="btn ghost rv" data-d="1.6" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Basmala%20%26%20Muhammed%27s%20Wedding&amp;dates=20261126T180000Z/20261126T200000Z&amp;location=Al%20Ali%20Al%20Azeem%20Mosque%2C%20Almaza%2C%20Cairo&amp;details=We%20look%20forward%20to%20celebrating%20with%20you." target="_blank" rel="noopener">Add to calendar</a>
+  </section>
+
+  <section id="venue" data-sec>
+    <p class="caps rv" data-d="0">The Venue</p>
+    <div class="arch rv" data-d="0.3"><video id="clip" muted playsinline loop autoplay preload="auto" poster=""><source src="mosque.mp4" type="video/mp4"><source src="mosque.webm" type="video/webm"></video></div>
+    <h3 class="rv" data-d="0.7">Al Ali Al Azeem Mosque</h3>
+    <p class="arn rv" data-d="0.9">مسجد العلي العظيم</p>
+    <p class="addr rv" data-d="1.1">Almaza Park, Heliopolis, Cairo</p>
+    <div class="loc rv" data-d="1.3">
+      <svg class="pin" viewBox="0 0 54 54" aria-hidden="true"><circle cx="27" cy="27" r="27" fill="#6b1c32"/><path d="M27 12c-6 0-10.5 4.6-10.5 10.4C16.5 30 27 42 27 42s10.5-12 10.5-19.6C37.5 16.6 33 12 27 12z" fill="#fbf7f2"/><path d="M27 18.2c-2.6 1.8-4.2 3.6-4.2 5.6h8.4c0-2-1.6-3.8-4.2-5.6zM22.6 24.6h8.8v3.6h-8.8z" fill="#b8914e"/><path d="M27 15.4v2.4" stroke="#b8914e" stroke-width="1.2"/></svg>
+      <div class="t">Tap below for directions on Google Maps<small>30.0891° N · 31.3489° E</small></div>
+    </div>
+    <a class="btn open rv" data-d="1.5" href="https://www.google.com/maps/search/?api=1&amp;query=Al+Aly+Al+Azeem+Mosque&amp;query_place_id=ChIJb0DCLAAVWBQR9GihsXeq--Q" target="_blank" rel="noopener">Open in Maps
+      <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M5 2H2v10h10V9M8 2h4v4M12 2L6 8" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></a>
+    <img class="qr rv" data-d="1.5" src="qr.png" alt="QR code for the mosque location">
+  </section>
+
+  <section id="dress" data-sec>
+    <p class="caps rv" data-d="0">Dress Code</p>
+    <h2 class="script rv" data-d="0.3">Formal Attire</h2>
+    <div class="icons rv" data-d="0.6">
+      <svg viewBox="0 0 64 84" aria-hidden="true"><path d="M24 4l3 12-3 10h16l-3-10 3-12M24 26c-2 18-12 32-18 54h52c-6-22-16-36-18-54"/><path d="M24 26h16M18 52c6 2 22 2 28 0"/></svg>
+      <svg viewBox="0 0 64 84" aria-hidden="true"><path d="M8 34l20 10-20 10zM56 34L36 44l20 10z"/><rect x="27" y="39" width="10" height="10" rx="3"/><path d="M14 16l18 10 18-10M32 26v6"/></svg>
+    </div>
+    <p class="rv" data-d="0.9">Guests are kindly requested to dress formally: <em>elegant dresses for ladies</em> and <em>formal suits for gentlemen</em>.</p>
+  </section>
+
+  <section id="wishes" data-sec>
+    <p class="caps rv" data-d="0">Guestbook</p>
+    <h2 class="script rv" data-d="0.2">Send Your Wishes</h2>
+    <p class="note rv" data-d="0.4">Write a few words for the couple. They will reach us on WhatsApp.</p>
+    <form id="wishForm" class="rv" data-d="0.6">
+      <label for="wName">Your name</label>
+      <input id="wName" name="name" required autocomplete="name">
+      <label for="wMsg">Your wishes</label>
+      <textarea id="wMsg" name="msg" required></textarea>
+      <button class="btn" type="submit">Send wishes</button>
+    </form>
+    <a id="wishLink" class="btn" href="#" target="_blank" rel="noopener" style="display:none">Open WhatsApp to send</a>
+    <p class="sent" id="sentNote">Thank you! Your message is ready in WhatsApp, just press send.</p>
+  </section>
+
+  <section id="end" data-sec>
+    <img class="rv" data-d="0" src="monogram.png" alt="">
+    <div class="script rv" data-d="0.4">With love, Basmala &amp; Muhammed</div>
+    <p class="rv" data-d="0.8">We look forward to celebrating with you</p>
+    <div class="d rv" data-d="1.1">26 · 11 · 2026</div>
+  </section>
+  <canvas id="petals" aria-hidden="true"></canvas>
+</div>
+<button id="musicBtn" type="button" aria-label="Pause music"><i></i><i></i><i></i><i></i></button>
+<audio id="aud" src="music.mp3" loop preload="auto"></audio>
+
+<script>
+(function(){
+"use strict";
+const FILM = !!window.__FILM;
+const WHATSAPP = "";            // couple's number in international format, e.g. "2010xxxxxxxx"; empty = guest picks a chat
+const TARGET = Date.UTC(2026,10,26,18,0,0);   // 8:00 PM Cairo (UTC+2)
+document.documentElement.classList.add("js");
+if (FILM) document.documentElement.classList.add("film");
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches && !FILM;
+
+let filmT = 0; const t0 = performance.now();
+const now = () => FILM ? filmT : (performance.now() - t0) / 1000;
+const clamp = (x,a=0,b=1) => Math.min(b, Math.max(a, x));
+const ease = x => { x = clamp(x); return x < .5 ? 4*x*x*x : 1 - Math.pow(-2*x+2,3)/2; };
+const easeOut = x => 1 - Math.pow(1 - clamp(x), 3);
+const $ = s => document.querySelector(s);
+
+/* ---------- calendar ---------- */
+(function(){
+  const g = $("#calGrid"); const hd = ["Sat","Sun","Mon","Tue","Wed","Thu","Fri"];
+  let h = hd.map(d => `<span class="h">${d}</span>`).join("");
+  const first = new Date(Date.UTC(2026,10,1)).getUTCDay(); // 0 Sun
+  const off = (first + 1) % 7; for (let i=0;i<off;i++) h += "<span></span>";
+  for (let d=1; d<=30; d++) h += d===26 ? `<span class="day26"><svg viewBox="0 0 40 40"><path d="M20 35C8 26 3 19 3 12.5 3 7.5 7 4 11.6 4c3.6 0 6.4 2 8.4 5 2-3 4.8-5 8.4-5C33 4 37 7.5 37 12.5 37 19 32 26 20 35z" fill="#6b1c32"/></svg><b>26</b></span>` : `<span>${d}</span>`;
+  g.innerHTML = h;
+})();
+
+/* ---------- reveal system ---------- */
+const secs = [...document.querySelectorAll("[data-sec]")].map(el => ({el, start: null, items: [...el.querySelectorAll(".rv")].map(e => ({e, d: +e.dataset.d || 0, done: false}))}));
+let heroGate = Infinity;     // hero reveals wait for the doors to open
+function reveals(t){
+  const vh = innerHeight;
+  for (const s of secs){
+    if (s.start === null){
+      const r = s.el.getBoundingClientRect();
+      if (r.top < vh * 0.78 && r.bottom > 0){
+        if (s.el.id === "hero"){ if (t >= heroGate) s.start = heroGate; }
+        else s.start = t;
+      }
+    }
+    if (s.start === null) continue;
+    for (const it of s.items){
+      if (it.done) continue;
+      const p = reduce ? 1 : clamp((t - s.start - it.d) / 1.1);
+      const e = easeOut(p);
+      it.e.style.opacity = e;
+      it.e.style.transform = `translateY(${(1-e)*26}px)`;
+      if (p >= 1){ it.done = true; it.e.style.transform = ""; }
+    }
+  }
+}
+
+/* ---------- cover / doors ---------- */
+let openAt = Infinity; const aud = $("#aud"), mb = $("#musicBtn");
+function openInvite(){
+  if (openAt !== Infinity) return;
+  openAt = now(); heroGate = openAt + 1.6;
+  if (!FILM){
+    aud.volume = 0.8;
+    aud.play().then(() => { mb.classList.add("on"); }).catch(() => {});
+    mb.style.display = "flex";
+  }
+}
+$("#openBtn").addEventListener("click", openInvite);
+mb.addEventListener("click", () => {
+  if (aud.paused){ aud.play().then(()=>{mb.classList.add("on"); mb.setAttribute("aria-label","Pause music");}).catch(()=>{}); }
+  else { aud.pause(); mb.classList.remove("on"); mb.setAttribute("aria-label","Play music"); }
+});
+const cover = $("#cover"), dl = $(".door.l"), dr = $(".door.r");
+const loopL = $("#loopL"), loopR = $("#loopR"), tailL = $("#tailL"), tailR = $("#tailR"), knot = $("#knot"), band = $("#ribbonH"), seal = $("#seal"), ctext = $(".cover-text");
+let coverGone = false;
+function coverTick(t){
+  if (coverGone) return;
+  if (openAt === Infinity){
+    const s = Math.sin(t * 1.6) * 1.2;
+    loopL.setAttribute("transform", `rotate(${s} -8 0)`); loopR.setAttribute("transform", `rotate(${-s} 8 0)`);
+    seal.style.transform = `translate(-50%,-50%) scale(${1 + Math.sin(t*2)*0.015})`;
+    return;
+  }
+  const u = t - openAt;
+  const a = ease(u / 0.9);                         // bow unties
+  loopL.setAttribute("transform", `translate(${-a*40} ${a*20}) rotate(${-a*35} -8 0) scale(${1 - a*0.75})`);
+  loopR.setAttribute("transform", `translate(${a*40} ${a*20}) rotate(${a*35} 8 0) scale(${1 - a*0.75})`);
+  loopL.style.opacity = loopR.style.opacity = 1 - ease((u - 0.3) / 0.6);
+  const b = ease((u - 0.25) / 1.0);
+  tailL.setAttribute("transform", `translate(${-b*30} ${b*260})`); tailR.setAttribute("transform", `translate(${b*30} ${b*260})`);
+  tailL.style.opacity = tailR.style.opacity = knot.style.opacity = 1 - ease((u - 0.5) / 0.6);
+  band.setAttribute("transform", `scale(${1 + b * 0.0},${1 - b})`); band.style.opacity = 1 - b;
+  const c = ease(u / 0.6);
+  seal.style.transform = `translate(-50%,-50%) scale(${1 + c * 0.35})`; seal.style.opacity = 1 - c;
+  ctext.style.opacity = 1 - ease(u / 0.5);
+  const d = ease((u - 0.9) / 1.6);                 // doors swing
+  dl.style.transform = `rotateY(${-d * 105}deg)`; dr.style.transform = `rotateY(${d * 105}deg)`;
+  cover.style.opacity = 1 - ease((u - 2.0) / 0.6);
+  if (u > 2.7){ cover.style.display = "none"; coverGone = true; document.body.classList.remove("locked"); }
+}
+
+/* ---------- hero motion ---------- */
+const mosque = $("#mosque"), rays = $("#rays"), sun = $("#sun");
+function heroTick(t){
+  const u = t - (openAt === Infinity ? 0 : openAt);
+  const z = 1.16 - 0.14 * ease(clamp(u / 9));
+  const y = 60 * (1 - ease(clamp(u / 9)));
+  mosque.style.transform = `translateY(${y}px) scale(${z})`;
+  rays.style.transform = `rotate(${t * 2.2}deg)`;
+  sun.style.opacity = 0.85 + 0.15 * Math.sin(t * 0.8);
+}
+
+/* ---------- photo zoom ---------- */
+const pimg = $("#photo img");
+function photoTick(t){
+  const s = secs.find(s => s.el.id === "photo");
+  if (s.start === null) return;
+  const k = 1.08 - 0.08 * ease(clamp((t - s.start) / 7));
+  pimg.style.transform = `scale(${k})`;
+}
+
+/* ---------- countdown ---------- */
+const cdEls = ["#cdD","#cdH","#cdM","#cdS"].map(s => $(s)); const last = ["","","",""]; const chAt = [0,0,0,0];
+let filmBase = Date.now();
+function countTick(t){
+  const nowMs = FILM ? filmBase + t * 1000 : Date.now();
+  let ms = Math.max(0, TARGET - nowMs);
+  const v = [Math.floor(ms/864e5), Math.floor(ms/36e5)%24, Math.floor(ms/6e4)%60, Math.floor(ms/1e3)%60].map(x => String(x).padStart(2,"0"));
+  for (let i=0;i<4;i++){
+    const sp = cdEls[i].firstElementChild;
+    if (v[i] !== last[i]){ last[i] = v[i]; sp.textContent = v[i]; chAt[i] = t; }
+    const p = easeOut((t - chAt[i]) / 0.45);
+    sp.style.transform = `translateY(${(1-p) * -60}%)`; sp.style.opacity = p;
+  }
+}
+
+/* ---------- canvases ---------- */
+const bc = $("#birds"), pc = $("#petals"), bx = bc.getContext("2d"), px = pc.getContext("2d");
+let CW = 0, CH = 0, DPR = 1;
+function size(){
+  DPR = Math.min(2.5, devicePixelRatio || 1);
+  CW = bc.clientWidth; CH = bc.clientHeight;
+  for (const c of [bc, pc]){ c.width = CW * DPR; c.height = CH * DPR; }
+}
+addEventListener("resize", size); size();
+
+function rnd(seed){ let s = seed; return () => (s = (s * 16807) % 2147483647) / 2147483647; }
+const R = rnd(7);
+const birds = Array.from({length: 9}, (_, i) => ({
+  x0: R() * 1.6, y: 0.08 + R() * 0.42, s: 0.55 + R() * 0.75, v: 0.045 + R() * 0.05,
+  dir: i % 3 === 2 ? -1 : 1, f: 3.2 + R() * 1.6, ph: R() * 6.28, bob: 8 + R() * 16, glide: R() * 6.28
+}));
+const petals = Array.from({length: 16}, (_, i) => ({
+  x: R(), y: R(), s: 7 + R() * 7, v: 22 + R() * 30, sw: 18 + R() * 40, f: 0.3 + R() * 0.5, ph: R() * 6.28,
+  rot: R() * 6.28, vr: (R() - .5) * 1.6, c: ["#f6d3d4","#fbe9e6","#eab3b8","#fff8f3","#f3cdbb"][i % 5]
+}));
+
+function wing(ctx, lift, far){
+  const L = 48, ty = -L * lift * 0.9, tx = -12 - 10 * Math.abs(lift);
+  const g = ctx.createLinearGradient(0, 0, tx, ty);
+  g.addColorStop(0, far ? "#2b2840" : "#3d3657"); g.addColorStop(1, far ? "#1f1d2e" : "#28243b");
+  ctx.fillStyle = g; ctx.beginPath();
+  ctx.moveTo(9, -2);
+  ctx.quadraticCurveTo(6, ty * 0.6 - 4, tx, ty);
+  ctx.quadraticCurveTo(-4, ty * 0.42 + 4, -9, 0);
+  ctx.closePath(); ctx.fill();
+  if (!far){
+    ctx.strokeStyle = "rgba(255,240,235,.18)"; ctx.lineWidth = 0.8;
+    for (let k = 1; k <= 3; k++){ ctx.beginPath(); ctx.moveTo(4 - k * 4, -1); ctx.quadraticCurveTo(-2 - k*3, ty * 0.45, tx + k * 3, ty * (1 - k * 0.12)); ctx.stroke(); }
+  }
+}
+function swallow(ctx, x, y, s, lift, dir){
+  ctx.save(); ctx.translate(x, y); ctx.scale(dir * s, s);
+  wing(ctx, lift * 0.85 + 0.12, true);
+  ctx.fillStyle = "#2d2a40";
+  ctx.beginPath(); ctx.moveTo(-14, -1); ctx.quadraticCurveTo(-32, -3, -54, -11); ctx.lineTo(-30, 1); ctx.quadraticCurveTo(-34, 6, -52, 13); ctx.lineTo(-14, 3); ctx.closePath(); ctx.fill();
+  const g = ctx.createLinearGradient(0, -8, 0, 8);
+  g.addColorStop(0, "#2c2944"); g.addColorStop(.52, "#3a3452"); g.addColorStop(.56, "#f7ebe2"); g.addColorStop(1, "#edd9cb");
+  ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(25, -1);
+  ctx.bezierCurveTo(19, -9, -4, -8, -18, -1); ctx.bezierCurveTo(-6, 6, 14, 7, 25, -1); ctx.fill();
+  ctx.fillStyle = "#b9503f"; ctx.beginPath(); ctx.ellipse(20, 1.2, 4.2, 3, 0, 0, 7); ctx.fill();
+  ctx.fillStyle = "#14121c"; ctx.beginPath(); ctx.arc(21.5, -3, 1.2, 0, 7); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(25, -1.6); ctx.lineTo(30, -0.4); ctx.lineTo(25, 0.8); ctx.fill();
+  wing(ctx, lift, false);
+  ctx.restore();
+}
+function drawBirds(t){
+  bx.setTransform(DPR, 0, 0, DPR, 0, 0); bx.clearRect(0, 0, CW, CH);
+  if (openAt === Infinity) return;
+  const fade = clamp((t - openAt - 1.2) / 1.5);
+  bx.globalAlpha = fade;
+  for (const b of birds){
+    const span = CW + 260;
+    let x = ((b.x0 * span + b.v * CW * t) % span) - 130; if (b.dir < 0) x = CW - x;
+    const y = b.y * CH + b.bob * Math.sin(t * 0.9 + b.ph) + 14 * Math.sin(t * 0.37 + b.glide);
+    const gl = Math.sin(t * 0.55 + b.glide) > 0.45;
+    const lift = gl ? 0.18 + 0.05 * Math.sin(t * 2) : Math.sin(t * b.f * 2 * Math.PI / 2 + b.ph);
+    swallow(bx, x, y, b.s, lift, b.dir);
+  }
+}
+function drawPetals(t){
+  px.setTransform(DPR, 0, 0, DPR, 0, 0); px.clearRect(0, 0, CW, CH);
+  if (openAt === Infinity) return;
+  px.globalAlpha = 0.9 * clamp((t - openAt - 1.0) / 1.5);
+  for (const p of petals){
+    const y = ((p.y * (CH + 60) + p.v * t) % (CH + 60)) - 30;
+    const x = p.x * CW + p.sw * Math.sin(t * p.f * 2 + p.ph);
+    px.save(); px.translate(x, y); px.rotate(p.rot + p.vr * t); px.scale(Math.max(0.25, Math.abs(Math.cos(t * 0.9 + p.ph))), 1);
+    px.fillStyle = p.c; px.beginPath(); px.moveTo(0, -p.s);
+    px.bezierCurveTo(p.s * 0.9, -p.s * 0.6, p.s * 0.7, p.s * 0.7, 0, p.s);
+    px.bezierCurveTo(-p.s * 0.7, p.s * 0.7, -p.s * 0.9, -p.s * 0.6, 0, -p.s); px.fill();
+    px.restore();
+  }
+}
+
+/* ---------- wishes ---------- */
+$("#wishForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const n = $("#wName").value.trim(), m = $("#wMsg").value.trim();
+  if (!n || !m) return;
+  const text = `💌 Wishes for Basmala & Muhammed\n\n${m}\n\n— ${n}`;
+  const url = (WHATSAPP ? `https://wa.me/${WHATSAPP}` : "https://wa.me/") + "?text=" + encodeURIComponent(text);
+  const a = $("#wishLink"); a.href = url; a.style.display = "inline-flex";
+  $("#sentNote").style.display = "block";
+  a.click();
+});
+
+/* ---------- main loop ---------- */
+function tick(t){
+  coverTick(t); heroTick(t); reveals(t); photoTick(t); countTick(t); drawBirds(t); drawPetals(t);
+}
+if (!FILM){
+  const loop = () => { tick(now()); requestAnimationFrame(loop); };
+  requestAnimationFrame(loop);
+} else {
+  /* film mode: a scripted, frame-exact walk through the invitation */
+  const clip = $("#clip"); clip.removeAttribute("autoplay"); clip.removeAttribute("loop"); clip.pause();
+  const plan = [["cover",0],["hero",4.2],["mono",11.0],["photo",17.4],["count",24.4],["venue",32.0],["dress",40.4],["end",46.6]];
+  const MOVE = 1.5;
+  function targetFor(id){
+    if (id === "cover" || id === "hero") return 0;
+    const el = document.getElementById(id);
+    const top = el.offsetTop, h = el.offsetHeight;
+    return Math.max(0, Math.min(document.documentElement.scrollHeight - innerHeight, top + h / 2 - innerHeight / 2));
+  }
+  window.__filmBase = v => { filmBase = v; };
+  window.__render = async function(t){
+    filmT = t;
+    if (t >= 1.0 && openAt === Infinity){ filmT = 1.0; openInvite(); filmT = t; }
+    let y = 0;
+    for (let i = 0; i < plan.length; i++){
+      const [id, at] = plan[i]; const prev = i ? targetFor(plan[i-1][0]) : 0;
+      if (t >= at) y = i ? prev + (targetFor(id) - prev) * ease((t - at) / MOVE) : 0;
+    }
+    document.scrollingElement.scrollTop = y;
+    tick(t);
+    const vs = secs.find(s => s.el.id === "venue");
+    if (vs.start !== null && clip.duration){
+      const ct = Math.max(0, t - vs.start - 0.3) % (clip.duration - 0.05);
+      if (Math.abs(clip.currentTime - ct) > 0.001){
+        await new Promise(res => { clip.addEventListener("seeked", res, {once: true}); clip.currentTime = ct; setTimeout(res, 800); });
+      }
+    }
+    return y;
+  };
+}
+})();
+</script>
+</body>
+</html>
